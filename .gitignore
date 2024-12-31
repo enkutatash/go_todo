@@ -1,0 +1,6 @@
+# Ignore .env files for sensitive data
+.env
+
+# Ignore other files/folders
+
+*.log
