@@ -25,18 +25,31 @@ type Todo struct {
 func main() {
 	print("Hello, World!")
 
-	
-	
-
-	err := godotenv.Load(".env")
-
-	if err != nil {
-
-		log.Fatalf("Error loading .env file")
+	if _, err := os.Stat(".env"); err == nil {
+		err := godotenv.Load(".env")
+		if err != nil {
+			log.Fatalf("Error loading .env file")
+		}
 	}
 
-	mongo_url := os.Getenv("MONGO_URI")
-	clientOptions := options.Client().ApplyURI(mongo_url)
+	// Use environment variables set on Railway if .env is not loaded
+	mongoURL := os.Getenv("MONGO_URI")
+	if mongoURL == "" {
+		log.Fatal("MONGO_URI is not set")
+	}
+
+	
+	
+
+	// err := godotenv.Load(".env")
+
+	// if err != nil {
+
+	// 	log.Fatalf("Error loading .env file")
+	// }
+
+	// mongo_url := os.Getenv("MONGO_URI")
+	clientOptions := options.Client().ApplyURI(mongoURL)
 
 	client, err := mongo.Connect(context.Background(), clientOptions)
 
